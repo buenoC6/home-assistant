@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistant", "HomeAssistant\HomeAssistant.csproj", "{BA1E0B5A-B25E-4FD6-A75A-1EA96586E1B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistantWebApi", "HomeAssistantWebApi\HomeAssistantWebApi.csproj", "{BA1E0B5A-B25E-4FD6-A75A-1EA96586E1B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

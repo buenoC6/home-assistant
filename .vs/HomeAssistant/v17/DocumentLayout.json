@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Alexi\\RiderProjects\\HomeAssistant\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BA1E0B5A-B25E-4FD6-A75A-1EA96586E1B3}|HomeAssistant\\HomeAssistant.csproj|c:\\users\\alexi\\riderprojects\\homeassistant\\homeassistant\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{BA1E0B5A-B25E-4FD6-A75A-1EA96586E1B3}|HomeAssistant\\HomeAssistant.csproj|solutionrelative:homeassistant\\dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "C:\\Users\\Alexi\\RiderProjects\\HomeAssistant\\HomeAssistant\\Dockerfile",
+              "RelativeDocumentMoniker": "HomeAssistant\\Dockerfile",
+              "ToolTip": "C:\\Users\\Alexi\\RiderProjects\\HomeAssistant\\HomeAssistant\\Dockerfile",
+              "RelativeToolTip": "HomeAssistant\\Dockerfile",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-01T11:46:38.48Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

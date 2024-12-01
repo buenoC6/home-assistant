@@ -1,25 +1,32 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
+# Étape de base pour exécuter l'application
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+# Étape de build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["HomeAssistant/HomeAssistant.csproj", "HomeAssistant/"]
-RUN dotnet restore "./HomeAssistant/HomeAssistant.csproj"
+
+# Copie le fichier .csproj et restaure les dépendances
+COPY ["HomeAssistantWebApi.csproj", "."]
+RUN dotnet restore "HomeAssistantWebApi.csproj"
+
+# Copie tout le reste du code source
 COPY . .
-WORKDIR "/src/HomeAssistant"
-RUN dotnet build "./HomeAssistant.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+# Change le répertoire de travail pour la construction de l'application
+WORKDIR "/src"
+RUN dotnet build "HomeAssistantWebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# Étape de publication
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./HomeAssistant.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "HomeAssistantWebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
+# Étape finale pour exécuter l'application
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "HomeAssistant.dll"]
+ENTRYPOINT ["dotnet", "HomeAssistantWebApi.dll"]

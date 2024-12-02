@@ -1,6 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistantWebApi", "HomeAssistantWebApi\HomeAssistantWebApi.csproj", "{BA1E0B5A-B25E-4FD6-A75A-1EA96586E1B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistant.WebApi", "HomeAssistant.WebApi\HomeAssistant.WebApi.csproj", "{BA1E0B5A-B25E-4FD6-A75A-1EA96586E1B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistant.Business", "HomeAssistant.Business\HomeAssistant.Business.csproj", "{E4C57BBF-BE12-4730-8294-99D61E01EE75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistant.Data", "HomeAssistant.Data\HomeAssistant.Data.csproj", "{82F7D8B7-6F3A-42D3-8ADF-B85CB3D47F2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeAssistant.Shared", "HomeAssistant.Shared\HomeAssistant.Shared.csproj", "{DC6389DA-B6CE-4F66-8DED-8874AC451DE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +18,17 @@ Global
 		{BA1E0B5A-B25E-4FD6-A75A-1EA96586E1B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA1E0B5A-B25E-4FD6-A75A-1EA96586E1B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA1E0B5A-B25E-4FD6-A75A-1EA96586E1B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4C57BBF-BE12-4730-8294-99D61E01EE75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4C57BBF-BE12-4730-8294-99D61E01EE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4C57BBF-BE12-4730-8294-99D61E01EE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4C57BBF-BE12-4730-8294-99D61E01EE75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82F7D8B7-6F3A-42D3-8ADF-B85CB3D47F2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82F7D8B7-6F3A-42D3-8ADF-B85CB3D47F2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82F7D8B7-6F3A-42D3-8ADF-B85CB3D47F2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82F7D8B7-6F3A-42D3-8ADF-B85CB3D47F2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC6389DA-B6CE-4F66-8DED-8874AC451DE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC6389DA-B6CE-4F66-8DED-8874AC451DE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC6389DA-B6CE-4F66-8DED-8874AC451DE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC6389DA-B6CE-4F66-8DED-8874AC451DE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

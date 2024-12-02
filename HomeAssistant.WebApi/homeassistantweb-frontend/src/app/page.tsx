@@ -98,6 +98,7 @@ export default function Home() {
                                   <AreaChart
                                       accessibilityLayer
                                       data={chartData}
+
                                       margin={{
                                           left: 12,
                                           right: 12,
@@ -156,43 +157,6 @@ export default function Home() {
                       </DrawerTrigger>
                       <DrawerContent>
                           <DrawerHeader className={'flex flex-wrap gap-1'}>
-                              <Card style={{width: '98.5%'}}>
-                                  {
-                                      chartData && chartData.length > 0 &&
-                                      <Card style={{width: '98.5%'}}>
-                                          <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-                                              <AreaChart
-                                                  accessibilityLayer
-                                                  data={chartData}
-                                                  margin={{
-                                                      left: 12,
-                                                      right: 12,
-                                                  }}
-                                              >
-                                                  <CartesianGrid vertical={false} />
-                                                  <XAxis
-                                                      dataKey="hour"
-                                                      tickLine={false}
-                                                      axisLine={false}
-                                                      tickMargin={8}
-                                                      tickFormatter={(value) => value.slice(0, 3)}
-                                                  />
-                                                  <ChartTooltip
-                                                      cursor={false}
-                                                      content={<ChartTooltipContent indicator="line" />}
-                                                  />
-                                                  <Area
-                                                      dataKey="power"
-                                                      type="natural"
-                                                      fill="var(--color-desktop)"
-                                                      fillOpacity={0.4}
-                                                      stroke="var(--color-desktop)"
-                                                  />
-                                              </AreaChart>
-                                          </ChartContainer>
-                                      </Card>
-                                  }
-                              </Card>
                               <Card style={{width: '49.25%'}} >
                                   <CardHeader className={'p-1.5'}>
                                       <CardTitle className={'flex justify-center pt-1'}>

@@ -24,21 +24,16 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Configuration CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowMyApp", policy =>
-    {
-        policy.AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
-
 // Injection des dépendances
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 
 var app = builder.Build();
+
+app.UseCors(builder => builder
+    .AllowCredentials()
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .SetIsOriginAllowed(origin => true));
 
 // Configurer le pipeline HTTP
 if (app.Environment.IsDevelopment())

@@ -26,6 +26,7 @@ export default function Home() {
                 }
                 const result: SolarPower = await response.json();
                 setSolar(result);
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (err) {
             } finally {
             }

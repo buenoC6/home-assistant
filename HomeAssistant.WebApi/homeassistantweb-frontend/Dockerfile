@@ -4,13 +4,13 @@ WORKDIR /app
 
 # Copier le package.json et package-lock.json pour installer les dépendances
 COPY package*.json ./
-RUN npm install --force
+RUN yarn --force
 
 # Copier tout le code source
 COPY . .
 
 # Construire l'application Next.js
-RUN npm run build
+RUN yarn build
 
 # Étape de production
 FROM node:20 AS production
@@ -26,4 +26,4 @@ COPY --from=build /app/node_modules ./node_modules
 EXPOSE 3000
 
 # Commande pour démarrer l'application
-CMD ["npm", "start"]
+CMD ["yarn", "start"]

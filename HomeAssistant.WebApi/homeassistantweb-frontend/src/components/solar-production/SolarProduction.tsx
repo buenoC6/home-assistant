@@ -17,6 +17,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { useSolarPanelsDetails } from '@/api/power/useSolarPanelsDetails'
 import { SolarUnitCard } from '@/components/solar-production/SolarUnitCard'
+import { useEffect, useState } from 'react'
 
 const chartConfig = {
   desktop: {
@@ -31,6 +32,24 @@ const chartConfig = {
 
 export function SolarProduction() {
   const { data, isPending, isError, error } = useSolarPanelsDetails()
+  const [chartData, setChartData] = useState<{ hour: string; power: string }[]>(
+    []
+  )
+
+  useEffect(() => {
+    if (data) {
+      const temp = []
+      for (let i = 0; i < data.powerCurve.xAxis.length; i++) {
+        if (data.powerCurve.activePower[i] === '-') continue
+        temp.push({
+          hour: data.powerCurve.xAxis[i],
+          power: data.powerCurve.activePower[i],
+        })
+      }
+      setChartData(temp)
+    }
+  }, [data])
+
   if (isPending) {
     return <span>Loading...</span>
   }
@@ -51,11 +70,11 @@ export function SolarProduction() {
           <Card style={{ width: '100%' }}>
             <ChartContainer
               config={chartConfig}
-              className="min-h-[100px] w-full h-full pt-2"
+              className="min-h-[100px] w-full h-full p-2"
             >
               <AreaChart
                 accessibilityLayer
-                data={data.powerCurve.xAxis}
+                data={chartData}
                 margin={{
                   top: 12,
                   left: 12,

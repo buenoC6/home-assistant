@@ -5,48 +5,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
-import { useEffect } from 'react'
 import { Devices } from '@/components/devices/Devices'
 import { SolarProduction } from '@/components/solar-production/SolarProduction'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 export default function Home() {
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responseOnduleur = await fetch(
-          'http://192.168.1.37:8080/api/network/onduleur'
-        )
-        const responseNetwork = await fetch(
-          'http://192.168.1.37:8080/api/network/scan'
-        )
-        if (!responseOnduleur.ok) {
-          throw new Error(`HTTP error! status: ${responseOnduleur.status}`)
-        }
-        if (!responseNetwork.ok) {
-          throw new Error(`HTTP error! status: ${responseNetwork.status}`)
-        }
-        const network: Network[] = await responseNetwork.json()
-        setNetwork(network)
-        const result: SolarPower = await responseOnduleur.json()
-        setSolar(result)
-        const temp = []
-        for (let i = 0; i < result.powerCurve.xAxis.length; i++) {
-          if (result.powerCurve.activePower[i] === '-') continue
-          temp.push({
-            hour: result.powerCurve.xAxis[i],
-            power: result.powerCurve.activePower[i],
-          })
-        }
-        setChartData(temp)
-      } catch (err) {
-      } finally {
-      }
-    }
-
-    fetchData()
-  }, [])
-
   const queryClient = new QueryClient()
 
   return (

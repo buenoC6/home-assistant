@@ -1,8 +1,14 @@
 using HomeAssistant.Business.Interfaces;
 using HomeAssistant.Business.Services;
+using HomeAssistant.Data.Contexts;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Ajout du DbContext avec PostgreSQL
+builder.Services.AddDbContext<HomeAssistantDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Ajouter les services à l'application
 builder.Services.AddControllers(); // Support pour les contrôleurs
@@ -26,7 +32,14 @@ builder.Services.AddSwaggerGen(c =>
 
 // Injection des dépendances
 builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddScoped<ISolarPanelsService, SolarPanelsService>();
+builder.Services.AddScoped<IElectricityService, ElectricityService>();
+builder.Services.AddScoped<IApiPollingService, ApiPollingService>();
+
 builder.Services.AddHttpClient<IDeviceService, DeviceService>();
+builder.Services.AddHttpClient<IApiPollingService, ApiPollingService>();
+
+builder.Services.AddHostedService<ApiPollingService>();
 
 var app = builder.Build();
 

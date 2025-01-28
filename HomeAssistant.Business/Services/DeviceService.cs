@@ -2,19 +2,11 @@
 using System.Net.NetworkInformation;
 using HomeAssistant.Business.Interfaces;
 using HomeAssistant.Business.Models;
-using Newtonsoft.Json;
 
 namespace HomeAssistant.Business.Services;
 
 public class DeviceService : IDeviceService
 {
-    private readonly HttpClient _httpClient;
-    
-    public DeviceService(HttpClient httpClient)
-    {
-        _httpClient = httpClient;
-    }
-
     public async Task<DeviceInfo[]> GetDevicesAsync()
     {
         var baseIP = "192.168.1."; // Modifier selon votre réseau
@@ -40,44 +32,6 @@ public class DeviceService : IDeviceService
             .ToArray();
     }
     
-    public async Task<HomeWizardResponse> GetElectricityInfoAsync()
-    {
-        // Construire l'URL de l'API
-        var url = $"http://192.168.1.9/api/v1/data";
-        
-        // Envoyer une requête GET
-        var response = await _httpClient.GetAsync(url);
-
-        // Vérifier si la réponse est réussie
-        response.EnsureSuccessStatusCode();
-
-        // Lire le contenu de la réponse
-        var responseBody = await response.Content.ReadAsStringAsync();
-
-        // Si vous souhaitez désérialiser en un objet JSON, utilisez :
-        var data = JsonConvert.DeserializeObject<HomeWizardResponse>(responseBody);
-
-        return data;
-    }
-
-
-    public async Task<Data> GetOnduleurDetailsAsync()
-    {
-        string url = "https://uni003eu5.fusionsolar.huawei.com/rest/pvms/web/kiosk/v1/station-kiosk-file?kk=2rGmkPrC7orIQGKJDMIkJFA5iAphb08L";
-        
-        using (HttpClient client = new HttpClient())
-        {
-            // Envoi de la requête GET
-            HttpResponseMessage response = await client.GetAsync(url);
-            response.EnsureSuccessStatusCode(); // Lance une exception si le code de statut n'est pas 2xx
-            
-            JsonResponse jsonResponse = JsonConvert.DeserializeObject<JsonResponse>(await response.Content.ReadAsStringAsync());
-            
-            return JsonConvert.DeserializeObject<Data>(jsonResponse.Data.Replace("&quot;", "\""));
-        }
-    }
-
-
     private async Task<DeviceInfo> PingDevice(string ipAddress)
     {
         try

@@ -40,9 +40,13 @@ export function SolarProduction() {
   } = useSolarPanelsDetails()
 
   const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     data: electricityData,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     isPending: isElectricityPending,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     isError: isElectricityError,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     error: electricityError,
   } = useElectricityDetails()
   const [chartData, setChartData] = useState<{ hour: string; power: string }[]>(
@@ -63,7 +67,7 @@ export function SolarProduction() {
     }
   }, [isSolarPending])
 
-  if (solarData) {
+  if (isSolarPending) {
     return <span>Loading...</span>
   }
 
@@ -78,49 +82,51 @@ export function SolarProduction() {
 
   return (
     <>
-      <div>
-        {solarData && solarData.powerCurve.xAxis.length > 0 && (
-          <Card style={{ width: '100%' }}>
-            <ChartContainer
-              config={chartConfig}
-              className="min-h-[100px] w-full h-full p-2"
-            >
-              <AreaChart
-                accessibilityLayer
-                data={chartData}
-                margin={{
-                  top: 12,
-                  left: 12,
-                  right: 12,
-                }}
+      {solarData && (
+        <div>
+          {solarData.powerCurve.xAxis.length > 0 && (
+            <Card style={{ width: '100%' }}>
+              <ChartContainer
+                config={chartConfig}
+                className="min-h-[100px] w-full h-full p-2"
               >
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="hour"
-                  tickLine={false}
-                  axisLine={false}
-                  tickMargin={6}
-                  minTickGap={35}
-                  tickFormatter={(value) => value}
-                />
-                <ChartTooltip
-                  cursor={true}
-                  isAnimationActive={true}
-                  animationEasing={'ease-in-out'}
-                  content={<ChartTooltipContent indicator="line" />}
-                />
-                <Area
-                  dataKey="power"
-                  type="monotone"
-                  fill="var(--color-desktop)"
-                  fillOpacity={0.4}
-                  stroke="var(--color-desktop)"
-                />
-              </AreaChart>
-            </ChartContainer>
-          </Card>
-        )}
-      </div>
+                <AreaChart
+                  accessibilityLayer
+                  data={chartData}
+                  margin={{
+                    top: 12,
+                    left: 12,
+                    right: 12,
+                  }}
+                >
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="hour"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={6}
+                    minTickGap={35}
+                    tickFormatter={(value) => value}
+                  />
+                  <ChartTooltip
+                    cursor={true}
+                    isAnimationActive={true}
+                    animationEasing={'ease-in-out'}
+                    content={<ChartTooltipContent indicator="line" />}
+                  />
+                  <Area
+                    dataKey="power"
+                    type="monotone"
+                    fill="var(--color-desktop)"
+                    fillOpacity={0.4}
+                    stroke="var(--color-desktop)"
+                  />
+                </AreaChart>
+              </ChartContainer>
+            </Card>
+          )}
+        </div>
+      )}
 
       <div
         style={{

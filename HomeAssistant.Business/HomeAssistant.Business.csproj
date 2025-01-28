@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\HomeAssistant.Data\HomeAssistant.Data.csproj" />
       <ProjectReference Include="..\HomeAssistant.Shared\HomeAssistant.Shared.csproj" />
     </ItemGroup>
 

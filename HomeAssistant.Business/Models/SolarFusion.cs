@@ -80,7 +80,7 @@ public class JsonResponse
     public int FailCode { get; set; }
 }
 
-public class Data
+public class SolarData
 {
     [JsonProperty("powerCurve")]
     public PowerCurve PowerCurve { get; set; }

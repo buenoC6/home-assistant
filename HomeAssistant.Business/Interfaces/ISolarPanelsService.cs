@@ -2,7 +2,7 @@
 
 namespace HomeAssistant.Business.Interfaces;
 
-public interface IDeviceService
+public interface ISolarPanelsService
 {
-    Task<DeviceInfo[]> GetDevicesAsync();
+    Task<SolarData> GetSolarPanelsDetailsAsync();
 }

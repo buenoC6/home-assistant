@@ -2,5 +2,5 @@
 
 public class ElectricityUsageData
 {
-    
+    public DateTime Timestamp { get; set; }
 }

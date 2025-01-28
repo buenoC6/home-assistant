@@ -2,6 +2,7 @@
 import { SolarProduction } from '@/components/solar-production/SolarProduction'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Tab, Tabs } from '@nextui-org/tabs'
+import { Devices } from '@/components/devices/Devices'
 
 export default function Home() {
   const queryClient = new QueryClient()
@@ -52,7 +53,9 @@ export default function Home() {
                 <span>Appareils</span>
               </div>
             }
-          ></Tab>
+          >
+            <Devices />
+          </Tab>
           <Tab
             key="photos3"
             title={

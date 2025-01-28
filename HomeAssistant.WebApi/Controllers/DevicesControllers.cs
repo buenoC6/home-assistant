@@ -27,4 +27,11 @@ public class DevicesController : ControllerBase
         var onduleurDetails = await _service.GetOnduleurDetailsAsync();
         return Ok(onduleurDetails);
     }
+
+    [HttpGet("electricity")]
+    public async Task<IActionResult> GetElectricityInfo(string ipAddress)
+    {
+        var electricityData = await _service.GetElectricityInfoAsync(ipAddress);
+        return Ok(electricityData);
+    }
 }

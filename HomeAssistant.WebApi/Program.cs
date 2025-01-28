@@ -26,6 +26,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // Injection des dépendances
 builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddHttpClient<IDeviceService, DeviceService>();
 
 var app = builder.Build();
 

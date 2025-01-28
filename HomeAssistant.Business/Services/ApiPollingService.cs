@@ -11,7 +11,7 @@ public class ApiPollingService : BackgroundService , IApiPollingService
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<ApiPollingService> _logger;
 
-    public ApiPollingService(IServiceScopeFactory scopeFactory, ILogger<ApiPollingService> logger, ISolarPanelsService solarPanelsService)
+    public ApiPollingService(IServiceScopeFactory scopeFactory, ILogger<ApiPollingService> logger)
     {
         _scopeFactory = scopeFactory;
         _logger = logger;

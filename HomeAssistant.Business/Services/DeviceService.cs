@@ -7,6 +7,13 @@ namespace HomeAssistant.Business.Services;
 
 public class DeviceService : IDeviceService
 {
+    private readonly HttpClient _httpClient;
+    
+    public DeviceService(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
+    
     public async Task<DeviceInfo[]> GetDevicesAsync()
     {
         var baseIP = "192.168.1."; // Modifier selon votre réseau
@@ -82,22 +89,20 @@ public class DeviceService : IDeviceService
     
     private async Task<string> GetHttpHeadersAsync(string ipAddress)
     {
-        using (var client = new HttpClient())
+        try
         {
-            try
+            var response = await _httpClient.GetAsync($"http://{ipAddress}");
+            if (response.IsSuccessStatusCode)
             {
-                var response = await client.GetAsync($"http://{ipAddress}");
-                if (response.IsSuccessStatusCode)
-                {
-                    var serverHeader = response.Headers.Server?.ToString();
-                    return serverHeader ?? "No Server Header";
-                }
-            }
-            catch
-            {
-                return "Error connecting";
+                var serverHeader = response.Headers.Server?.ToString();
+                return serverHeader ?? "No Server Header";
             }
         }
+        catch
+        {
+            return "Error connecting";
+        }
+        
         return null;
     }
 }

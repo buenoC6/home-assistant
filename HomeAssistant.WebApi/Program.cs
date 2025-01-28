@@ -34,7 +34,6 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<ISolarPanelsService, SolarPanelsService>();
 builder.Services.AddScoped<IElectricityService, ElectricityService>();
-builder.Services.AddScoped<IApiPollingService, ApiPollingService>();
 
 builder.Services.AddHttpClient<IDeviceService, DeviceService>();
 builder.Services.AddHttpClient<IApiPollingService, ApiPollingService>();

@@ -40,7 +40,7 @@ public class DeviceService : IDeviceService
             .ToArray();
     }
     
-    public async Task<HomeWizardResponse> GetElectricityInfoAsync(string ipAddress)
+    public async Task<HomeWizardResponse> GetElectricityInfoAsync()
     {
         // Construire l'URL de l'API
         var url = $"http://192.168.1.9/api/v1/data";

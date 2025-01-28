@@ -29,9 +29,9 @@ public class DevicesController : ControllerBase
     }
 
     [HttpGet("electricity")]
-    public async Task<IActionResult> GetElectricityInfo(string ipAddress)
+    public async Task<IActionResult> GetElectricityInfo()
     {
-        var electricityData = await _service.GetElectricityInfoAsync(ipAddress);
+        var electricityData = await _service.GetElectricityInfoAsync();
         return Ok(electricityData);
     }
 }

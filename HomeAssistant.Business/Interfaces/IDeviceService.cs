@@ -6,7 +6,7 @@ public interface IDeviceService
 {
     Task<DeviceInfo[]> GetDevicesAsync();
     
-    Task<HomeWizardResponse> GetElectricityInfoAsync(string ipAddress);
+    Task<HomeWizardResponse> GetElectricityInfoAsync();
     
     Task<Data> GetOnduleurDetailsAsync();
 }

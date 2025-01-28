@@ -3,6 +3,8 @@ using HomeAssistant.Business.Models;
 using HomeAssistant.Data.Contexts;
 using HomeAssistant.Data.Models;
 using Newtonsoft.Json;
+using JsonResponse = HomeAssistant.Business.Models.JsonResponse;
+using SolarData = HomeAssistant.Business.Models.SolarData;
 
 namespace HomeAssistant.Business.Services;
 
@@ -20,12 +22,24 @@ public class ApiPollingService : BackgroundService , IApiPollingService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("ApiPollingService started.");
-        
+
         while (!stoppingToken.IsCancellationRequested)
         {
             try
             {
-                var apiData = await this.GetElectricityInfoAsync();
+                // Calcul du délai jusqu'à 23h56
+                var now = DateTime.UtcNow;
+                var nextRunTime = DateTime.UtcNow.Date.AddDays(1).AddHours(23).AddMinutes(56); // 23h56 du jour suivant
+                var delay = nextRunTime - now;
+
+                if (delay.TotalMilliseconds > 0)
+                {
+                    // Attendre jusqu'à la prochaine exécution (23h56)
+                    _logger.LogInformation("En attente jusqu'à 23h56...");
+                    await Task.Delay(delay, stoppingToken);
+                }
+
+                var apiData = await this.GetSolarPanelsDetailsAsync();
 
                 if (apiData != null)
                 {
@@ -35,6 +49,9 @@ public class ApiPollingService : BackgroundService , IApiPollingService
                     var newEntry = new SolarPanelData
                     {
                         Timestamp = DateTime.UtcNow,
+                        SolarData = JsonConvert.SerializeObject(apiData),
+                        DailyProduction = apiData.RealKpi.DailyEnergy
+                        
                     };
 
                     dbContext.SolarPanels.Add(newEntry);
@@ -47,10 +64,9 @@ public class ApiPollingService : BackgroundService , IApiPollingService
             {
                 _logger.LogError(ex, "Erreur lors de l'appel API.");
             }
-            
-            await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
         }
     }
+
 
     private async Task<HomeWizardResponse> GetElectricityInfoAsync()
     {

@@ -30,5 +30,9 @@ RUN dotnet publish "HomeAssistant.WebApi.csproj" -c $BUILD_CONFIGURATION -o /app
 # Étape finale pour exécuter l'application
 FROM base AS final
 WORKDIR /app
+
+# Définir la variable d'environnement pour la connection string (remplace par ta chaîne réelle)
+ENV DATABASE_URL=Host=postgres-db;Port=5432;Username=admin;Password=VotreMotDePasseFort;Database=homeDB
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "HomeAssistant.WebApi.dll"]

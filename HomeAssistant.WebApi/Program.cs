@@ -6,9 +6,19 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Ajout du DbContext avec PostgreSQL
-builder.Services.AddDbContext<HomeAssistantDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+if (!string.IsNullOrEmpty(connectionString))
+{
+    builder.Services.AddDbContext<HomeAssistantDbContext>(options =>
+        options.UseNpgsql(connectionString));
+}
+else
+{
+    // Par défaut, tu peux lire la connection string depuis appsettings.json si pas de variable d'env.
+    builder.Services.AddDbContext<HomeAssistantDbContext>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
 
 // Ajouter les services à l'application
 builder.Services.AddControllers(); // Support pour les contrôleurs
@@ -41,6 +51,12 @@ builder.Services.AddHttpClient<IApiPollingService, ApiPollingService>();
 builder.Services.AddHostedService<ApiPollingService>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<HomeAssistantDbContext>();
+    dbContext.Database.Migrate();
+}
 
 app.UseCors(builder => builder
     .AllowCredentials()

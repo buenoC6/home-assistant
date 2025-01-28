@@ -15,7 +15,6 @@ public class HomeAssistantDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-        // Configurations supplémentaires ici (ex: relations, index)
+        modelBuilder.Entity<SolarPanelData>().HasKey(e => e.Timestamp);
     }
 }

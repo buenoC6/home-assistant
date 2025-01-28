@@ -1,4 +1,4 @@
-import axiosInstance from '@/utils/axiosInstance'
+import axiosInstance from '@/api/axiosInstance'
 import { NetworkDevice } from './types'
 
 export const fetchNetworkDevices = async (): Promise<NetworkDevice[]> => {

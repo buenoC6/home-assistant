@@ -1,6 +1,7 @@
 ﻿using HomeAssistant.Business.Interfaces;
 using HomeAssistant.Business.Models;
 using HomeAssistant.Data.Contexts;
+using HomeAssistant.Data.Interfaces;
 using HomeAssistant.Data.Models;
 using Newtonsoft.Json;
 using JsonResponse = HomeAssistant.Business.Models.JsonResponse;
@@ -10,13 +11,15 @@ namespace HomeAssistant.Business.Services;
 
 public class ApiPollingService : BackgroundService , IApiPollingService
 {
-    private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<ApiPollingService> _logger;
+    private readonly ISolarPanelRepository _solarPanelRepository;
+    private readonly IElectricityRepository _electricityRepository;
 
-    public ApiPollingService(IServiceScopeFactory scopeFactory, ILogger<ApiPollingService> logger)
+    public ApiPollingService(ILogger<ApiPollingService> logger, IElectricityRepository electricityRepository, ISolarPanelRepository solarPanelRepository)
     {
-        _scopeFactory = scopeFactory;
         _logger = logger;
+        _electricityRepository = electricityRepository;
+        _solarPanelRepository = solarPanelRepository;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -39,26 +42,13 @@ public class ApiPollingService : BackgroundService , IApiPollingService
                     await Task.Delay(delay, stoppingToken);
                 }
 
-                var apiData = await this.GetSolarPanelsDetailsAsync();
+                var solarPanelsData = await this.GetSolarPanelsDetailsAsync();
+                var electricityData = await this.GetElectricityDetailsAsync();
+                
+                this._solarPanelRepository.CreateDailySolarPanelData(solarPanelsData);
+                this._electricityRepository.
 
-                if (apiData != null)
-                {
-                    using var scope = _scopeFactory.CreateScope();
-                    var dbContext = scope.ServiceProvider.GetRequiredService<HomeAssistantDbContext>();
-
-                    var newEntry = new SolarPanelData
-                    {
-                        Timestamp = DateTime.UtcNow,
-                        SolarData = JsonConvert.SerializeObject(apiData),
-                        DailyProduction = apiData.RealKpi.DailyEnergy
-                        
-                    };
-
-                    dbContext.SolarPanels.Add(newEntry);
-                    await dbContext.SaveChangesAsync(stoppingToken);
-
-                    _logger.LogInformation("Données sauvegardées : {@Data}", newEntry);
-                }
+                
             }
             catch (Exception ex)
             {
@@ -67,8 +57,7 @@ public class ApiPollingService : BackgroundService , IApiPollingService
         }
     }
 
-
-    private async Task<HomeWizardResponse> GetElectricityInfoAsync()
+    private async Task<HomeWizardResponse> GetElectricityDetailsAsync()
     {
         using (HttpClient client = new HttpClient())
         {

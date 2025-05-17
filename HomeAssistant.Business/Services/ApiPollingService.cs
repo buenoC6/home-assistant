@@ -1,8 +1,6 @@
 ﻿using HomeAssistant.Business.Interfaces;
 using HomeAssistant.Business.Models;
-using HomeAssistant.Data.Contexts;
 using HomeAssistant.Data.Interfaces;
-using HomeAssistant.Data.Models;
 using Newtonsoft.Json;
 using JsonResponse = HomeAssistant.Business.Models.JsonResponse;
 using SolarData = HomeAssistant.Business.Models.SolarData;
@@ -12,14 +10,12 @@ namespace HomeAssistant.Business.Services;
 public class ApiPollingService : BackgroundService , IApiPollingService
 {
     private readonly ILogger<ApiPollingService> _logger;
-    private readonly ISolarPanelRepository _solarPanelRepository;
-    private readonly IElectricityRepository _electricityRepository;
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    public ApiPollingService(ILogger<ApiPollingService> logger, IElectricityRepository electricityRepository, ISolarPanelRepository solarPanelRepository)
+    public ApiPollingService(ILogger<ApiPollingService> logger, IServiceScopeFactory scopeFactory)
     {
         _logger = logger;
-        _electricityRepository = electricityRepository;
-        _solarPanelRepository = solarPanelRepository;
+        _scopeFactory = scopeFactory;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -42,13 +38,47 @@ public class ApiPollingService : BackgroundService , IApiPollingService
                     await Task.Delay(delay, stoppingToken);
                 }
 
+                using var scope = _scopeFactory.CreateScope();
+                var solarPanelRepo = scope.ServiceProvider.GetRequiredService<ISolarPanelRepository>();
+                var electricityRepo = scope.ServiceProvider.GetRequiredService<IElectricityRepository>();
+                
                 var solarPanelsData = await this.GetSolarPanelsDetailsAsync();
                 var electricityData = await this.GetElectricityDetailsAsync();
                 
-                this._solarPanelRepository.CreateDailySolarPanelData(solarPanelsData);
-                this._electricityRepository.
-
-                
+                solarPanelRepo.CreateDailySolarPanelData(new Data.Models.SolarData
+                {
+                    Language = solarPanelsData.Language,
+                    PowerCurve = new Data.Models.PowerCurve
+                    {
+                        XAxis = solarPanelsData.PowerCurve.XAxis,
+                        CurrentPower = solarPanelsData.PowerCurve.CurrentPower,
+                        ActivePower = solarPanelsData.PowerCurve.ActivePower,
+                    },
+                    RealKpi = new Data.Models.RealKpi
+                    {
+                        RealTimePower = solarPanelsData.RealKpi.RealTimePower,
+                        CumulativeEnergy = solarPanelsData.RealKpi.CumulativeEnergy,
+                        MonthEnergy = solarPanelsData.RealKpi.MonthEnergy,
+                        DailyEnergy = solarPanelsData.RealKpi.DailyEnergy,
+                        YearEnergy = solarPanelsData.RealKpi.YearEnergy
+                    },
+                    SocialContribution = new Data.Models.SocialContribution
+                    {
+                        Co2Reduction = solarPanelsData.SocialContribution.Co2Reduction,
+                        Co2ReductionByYear = solarPanelsData.SocialContribution.Co2ReductionByYear,
+                        StandardCoalSavings = solarPanelsData.SocialContribution.StandardCoalSavings,
+                        StandardCoalSavingsByYear = solarPanelsData.SocialContribution.StandardCoalSavingsByYear,
+                        EquivalentTreePlanting = solarPanelsData.SocialContribution.EquivalentTreePlanting,
+                        EquivalentTreePlantingByYear = solarPanelsData.SocialContribution.EquivalentTreePlantingByYear,
+                        ComponentFlag = solarPanelsData.SocialContribution.ComponentFlag
+                    },
+                    StationOverview = new Data.Models.StationOverview
+                    {
+                        StationName = solarPanelsData.StationOverview.StationName,
+                        StationDn = solarPanelsData.StationOverview.StationDn,
+                        PlantAddress = solarPanelsData.StationOverview.PlantAddress
+                    }
+                });
             }
             catch (Exception ex)
             {

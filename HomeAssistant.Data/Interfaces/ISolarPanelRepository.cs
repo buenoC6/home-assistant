@@ -1,4 +1,6 @@
-﻿namespace HomeAssistant.Data.Interfaces;
+﻿using HomeAssistant.Data.Models;
+
+namespace HomeAssistant.Data.Interfaces;
 
 public interface ISolarPanelRepository
 {

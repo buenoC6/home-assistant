@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HomeAssistant.Data.Migrations
 {
     [DbContext(typeof(HomeAssistantDbContext))]
-    [Migration("20250128223807_HomeAssistantDBMigration")]
-    partial class HomeAssistantDBMigration
+    [Migration("20250517171730_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

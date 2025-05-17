@@ -27,10 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\HomeAssistant.Business\HomeAssistant.Business.csproj" />
       <ProjectReference Include="..\HomeAssistant.Data\HomeAssistant.Data.csproj" />
       <ProjectReference Include="..\HomeAssistant.Shared\HomeAssistant.Shared.csproj" />

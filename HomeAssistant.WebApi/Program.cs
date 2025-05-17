@@ -1,6 +1,8 @@
 using HomeAssistant.Business.Interfaces;
 using HomeAssistant.Business.Services;
 using HomeAssistant.Data.Contexts;
+using HomeAssistant.Data.Interfaces;
+using HomeAssistant.Data.Repositories;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,6 +46,9 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<ISolarPanelsService, SolarPanelsService>();
 builder.Services.AddScoped<IElectricityService, ElectricityService>();
+
+builder.Services.AddScoped<IElectricityRepository, ElectricityRepository>();
+builder.Services.AddScoped<ISolarPanelRepository, SolarPanelRepository>();
 
 builder.Services.AddHttpClient<IDeviceService, DeviceService>();
 builder.Services.AddHttpClient<IApiPollingService, ApiPollingService>();

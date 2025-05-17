@@ -39,5 +39,5 @@ export interface ElectricityDetails {
   activePowerAverageW: number
   montlyPowerPeakW: number
   montlyPowerPeakTimestamp: number
-  external: any[]
+  external: never[]
 }
